@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://cxgtsrganqosj"]
+[gd_scene load_steps=56 format=3 uid="uid://cxgtsrganqosj"]
 
 [ext_resource type="Texture2D" uid="uid://by6k1sjuf8rln" path="res://art/characters/player.png" id="1_jql4f"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_wfndl"]
@@ -413,13 +413,20 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1b1vh"]
+size = Vector2(5.5, 6.5)
+
 [node name="player" type="CharacterBody2D"]
+z_index = 1
+y_sort_enabled = true
 script = ExtResource("1_wfndl")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_xcrbu")
-animation = &"death"
-frame = 2
-frame_progress = 0.326611
+animation = &"front_idle"
+autoplay = "front_idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.75, -2.25)
+shape = SubResource("RectangleShape2D_1b1vh")
