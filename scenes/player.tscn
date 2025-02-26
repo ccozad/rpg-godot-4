@@ -419,6 +419,7 @@ size = Vector2(5.5, 6.5)
 [node name="player" type="CharacterBody2D"]
 z_index = 1
 y_sort_enabled = true
+collision_layer = 2
 script = ExtResource("1_wfndl")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
