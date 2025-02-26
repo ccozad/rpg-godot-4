@@ -23,7 +23,6 @@ func slime_movement(delta: float) -> void:
 		velocity.y = 0
 	elif current_state == "chase": 
 		current_direction = calculate_direction()
-		print_debug(current_direction)
 		if current_direction == "right":
 			velocity.x = speed
 			velocity.y = 0
@@ -51,14 +50,23 @@ func _on_chase_area_body_exited(body: Node2D) -> void:
 func calculate_direction() -> String:
 	var direction = "down"
 	if target != null:
-		angle = get_angle_to(target.global_position)
-		if angle >= seven_eights or angle < one_eighths:
-			direction = "right"
-		elif angle >= one_eighths or angle < three_eighths:
-			direction = "up"
-		elif angle >= three_eighths or angle < five_eighths:
-			direction = "left"
-	
+		angle = global_position.angle_to_point(target.global_position)
+		# Counter clockwise rotation
+		if angle > 0:
+			if angle < one_eighths:
+				direction = "right"
+			elif angle < three_eighths:
+				direction = "down"
+			else:
+				direction = "left"
+		# Clockwise rotation
+		else:
+			if angle > -one_eighths:
+				direction = "left"
+			elif angle > -three_eighths:
+				direction = "up"
+			else:
+				direction = "right"
 	return direction
 	
 
