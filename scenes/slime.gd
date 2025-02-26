@@ -2,17 +2,10 @@ extends CharacterBody2D
 
 @onready var animatedSprite2D = $AnimatedSprite2D
 
-const one_eighths = PI/4.0
-const three_eighths = 3*PI/4
-const five_eighths = 5*PI/4
-const seven_eights = 7*PI/4
-
 var speed = 25
 var current_state = "idle"
-var current_direction = "down"
+var current_direction = "left"
 var target: Node2D = null
-var angle = 0.0
-
 
 func _physics_process(delta: float) -> void:
 	slime_movement(delta)
@@ -22,19 +15,11 @@ func slime_movement(delta: float) -> void:
 		velocity.x = 0
 		velocity.y = 0
 	elif current_state == "chase": 
-		current_direction = calculate_direction()
-		if current_direction == "right":
-			velocity.x = speed
-			velocity.y = 0
-		elif current_direction == "left":
-			velocity.x = -speed
-			velocity.y = 0
-		elif current_direction == "down":
-			velocity.x = 0
-			velocity.y = speed
-		elif current_direction == "up":
-			velocity.x = 0
-			velocity.y = -speed
+		velocity = (target.global_position - global_position).normalized() * speed
+		if velocity.x < 0:
+			current_direction = "left"
+		else:
+			current_direction = "right"
 		
 	move_and_slide()
 	play_animation()
@@ -46,29 +31,6 @@ func _on_chase_area_body_entered(body: Node2D) -> void:
 func _on_chase_area_body_exited(body: Node2D) -> void:
 	current_state = "idle"
 	target = null
-
-func calculate_direction() -> String:
-	var direction = "down"
-	if target != null:
-		angle = global_position.angle_to_point(target.global_position)
-		# Counter clockwise rotation
-		if angle > 0:
-			if angle < one_eighths:
-				direction = "right"
-			elif angle < three_eighths:
-				direction = "down"
-			else:
-				direction = "left"
-		# Clockwise rotation
-		else:
-			if angle > -one_eighths:
-				direction = "left"
-			elif angle > -three_eighths:
-				direction = "up"
-			else:
-				direction = "right"
-	return direction
-	
 
 func play_animation() -> void:
 	if current_state == "chase":

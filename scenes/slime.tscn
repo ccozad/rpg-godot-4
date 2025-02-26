@@ -466,9 +466,9 @@ script = ExtResource("1_hosfg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_giu0l")
-animation = &"side_walk"
+animation = &"front_walk"
 autoplay = "front_idle"
-frame_progress = 0.273608
+frame_progress = 0.93705
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_kl3r6")
